@@ -1,0 +1,127 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: #0a0a0a;
+  font-family: 'DM Sans', sans-serif;
+}
+
+#root {
+  display: flex;
+  height: 100%;
+}
+
+/* ─── Desktop shell ─── */
+
+/* Dark outer field — centers the mobile-app column */
+.app-shell {
+  width: 100%;
+  min-width: 1024px;
+  height: 100%;
+  background: #0a0a0a;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+/* The 480px self-contained column — screen + nav as one unit */
+.screen-column {
+  width: 480px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Screen area fills space above nav */
+.screen-wrapper {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Direction-aware slide ─── */
+
+.screen-enter-right {
+  animation: slideInRight 280ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.screen-enter-left {
+  animation: slideInLeft 280ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+/* ─── Button baseline ─── */
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 160ms ease-out, opacity 160ms ease-out;
+}
+
+button:active {
+  opacity: 0.8;
+  transform: scale(0.97);
+}
+
+/* ─── Overlay animations ─── */
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ellipsisFade {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 1; }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Accessibility ─── */
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-enter-right,
+  .screen-enter-left {
+    animation: none;
+  }
+  button {
+    transition: opacity 160ms ease;
+  }
+  button:active {
+    transform: none;
+  }
+}
